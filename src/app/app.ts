@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-// Correction 1 : Le chemin correspond à ton fichier "products.ts"
-import { ProductsComponent } from './products/products';
+import { RouterOutlet, RouterModule } from '@angular/router';
+// On supprime l'import de ProductsComponent car on passe par les routes
 
 @Component({
   selector: 'app-root',
-  // Correction 2 : On ajoute ProductsComponent ici pour pouvoir l'utiliser dans le HTML
-  imports: [RouterOutlet, ProductsComponent],
+  standalone: true,
+  // On importe RouterModule pour que les liens "routerLink" du menu fonctionnent
+  imports: [RouterOutlet, RouterModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

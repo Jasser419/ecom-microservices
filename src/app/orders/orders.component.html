@@ -1,0 +1,72 @@
+<div class="container mt-5">
+
+  <div class="card p-4 mb-4 shadow-sm border-primary">
+    <h4 class="mb-3 text-primary"><i class="bi bi-cart-plus"></i> Passer une commande</h4>
+
+    <div class="row g-3 align-items-end">
+
+      <div class="col-md-5">
+        <label class="form-label fw-bold">Produit</label>
+        <select class="form-select" [(ngModel)]="newOrder.productId">
+          <option [ngValue]="null" disabled>-- Choisir un produit --</option>
+          @for (prod of products; track prod.id) {
+            <option [value]="prod.id">
+              {{ prod.name }} (Prix: {{ prod.price }} DH)
+            </option>
+          }
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold">Quantité</label>
+        <input type="number" class="form-control" placeholder="Ex: 1"
+               [(ngModel)]="newOrder.quantity" min="1">
+      </div>
+
+      <div class="col-md-4">
+        <button type="button" class="btn btn-primary w-100"
+                (click)="saveOrder()"
+                [disabled]="isLoading">
+          @if (isLoading) {
+            <span class="spinner-border spinner-border-sm"></span> Envoi...
+          } @else {
+            <i class="bi bi-bag-check"></i> Commander
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="mb-3">Historique des Commandes</h3>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+      <tr>
+        <th>ID Cmd</th>
+        <th>ID Produit</th>
+        <th>Quantité</th>
+        <th>État</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (o of orders; track o.id) {
+          <tr>
+            <td>#{{ o.id }}</td>
+            <td>
+              <span class="badge bg-info text-dark">Produit {{ o.productId }}</span>
+            </td>
+            <td class="fw-bold">{{ o.quantity }}</td>
+            <td>
+              <span class="badge bg-success">{{ o.status || 'CONFIRMÉ' }}</span>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" class="text-center py-4">Aucune commande passée.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
